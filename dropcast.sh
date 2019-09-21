@@ -1,8 +1,32 @@
 #!/bin/bash
 
 DROPBOX_TOKEN=Your_Dropbox_Token
-PODCAST_TITLE=title
 DROPBOX_BASEDIR=/podcast
+
+usage_exit()
+{
+  echo "Usage: $0 [-t title]" 1>&2
+  exit 1
+}
+
+if [ $# = 0 ]; then
+  usage_exit
+fi
+
+while getopts 'ht:' OPT ; do
+case $OPT in
+  t)
+    PODCAST_TITLE=$OPTARG
+    ;;
+  h)
+    usage_exit
+    ;;
+  \?)
+    usage_exit
+    ;;
+esac
+done
+
 RSSNAME=$PODCAST_TITLE.xml.rss
 
 # upload mp3 to Dropbox
